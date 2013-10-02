@@ -28,7 +28,7 @@ module HandAnalyser
     end
 
     def is_quads?
-      unsuited_cards.select { |e| unsuited_cards.count(e) > 3 }.uniq.size > 0
+      has_same?(4)
     end
 
     def is_full_house?
@@ -41,15 +41,19 @@ module HandAnalyser
     end
     
     def is_three_of_a_kind?
-      unsuited_cards.select { |e| unsuited_cards.count(e) > 2 }.uniq.size > 0
+      has_same?(3)
     end
 
     def is_two_pair?
-      unsuited_cards.select { |e| unsuited_cards.count(e) > 1 }.uniq.size > 1
+      has_same?(3, 1)
     end
 
     def is_pair?
-      unsuited_cards.select { |e| unsuited_cards.count(e) > 1 }.uniq.size > 0
+      has_same?(2)
+    end
+
+    def has_same?(n, greater_than = 0)
+      unsuited_cards.select { |e| unsuited_cards.count(e) >= n }.uniq.size > greater_than 
     end
   end
 end
