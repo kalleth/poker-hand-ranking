@@ -33,5 +33,15 @@ module HandAnalyser
       raise SplitPotError if comparator.nil?
       comparator
     end
+
+    def pair_comparator(other)
+      my_pair = card_to_numeric(unsuited_cards.select { |e| unsuited_cards.count(e) >= 2 }.uniq.first)
+      their_pair = card_to_numeric(other.unsuited_cards.select { |e| other.unsuited_cards.count(e) >= 2 }.uniq.first)
+      if my_pair == their_pair
+        high_card_comparator(other)
+      else
+        my_pair <=> their_pair
+      end
+    end
   end
 end
