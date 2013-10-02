@@ -49,4 +49,22 @@ describe "HandAnalyser::Hand" do
     end
   end
 
+  context "when comparing different hands" do
+    it "shows a flush better than a straight" do
+      expect(flush > straight).to be(true)
+    end
+
+    it "shows a straight not better than a flush" do
+      expect(straight > flush).to be(false)
+    end
+
+    it "shows quads better than a pair" do
+      expect(quads > pair).to be(true)
+    end
+
+    it "shows pair worse than quads" do
+      expect(pair > quads).to be(false)
+    end
+  end
+
 end
