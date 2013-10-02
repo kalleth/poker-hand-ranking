@@ -6,14 +6,14 @@ module HandAnalyser
 
     def score
       case
-      when is_straight_flush?   then 8 
-      when is_quads?            then 7
-      when is_full_house?       then 6
-      when is_flush?            then 5
-      when is_straight?         then 4
-      when is_three_of_a_kind?  then 3
-      when is_two_pair?         then 2
-      when is_pair?             then 1
+      when straight_flush?   then 8 
+      when quads?            then 7
+      when full_house?       then 6
+      when flush?            then 5
+      when straight?         then 4
+      when three_of_a_kind?  then 3
+      when two_pair?         then 2
+      when pair?             then 1
       else 0
       end
     end
@@ -24,31 +24,32 @@ module HandAnalyser
       @unsuited_cards ||= @cards.map { |c| c[0] }
     end
 
-    def is_straight_flush?
+    def straight_flush?
+      straight? && flush?
     end
 
-    def is_quads?
+    def quads?
       has_same?(4)
     end
 
-    def is_full_house?
+    def full_house?
     end
 
-    def is_flush?
+    def flush?
     end
     
-    def is_straight?
+    def straight?
     end
     
-    def is_three_of_a_kind?
+    def three_of_a_kind?
       has_same?(3)
     end
 
-    def is_two_pair?
+    def two_pair?
       has_same?(3, 1)
     end
 
-    def is_pair?
+    def pair?
       has_same?(2)
     end
 
