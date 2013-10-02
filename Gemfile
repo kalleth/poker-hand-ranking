@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-group :test
+group :test do
   gem 'rspec'
 end

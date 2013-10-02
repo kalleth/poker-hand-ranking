@@ -1,4 +1,5 @@
 require_relative '../spec_helper'
+require_relative '../lib/hand_analyser'
 
 describe "HandAnalyser::Hand" do
   let(:high_card) { HandAnalyser::Hand.new('AS 9H 2D 5C 7H') }
