@@ -1,7 +1,7 @@
 module HandAnalyser
   class Hand
     def initialize(hand_string)
-      @cards = cards_from(hand_string)
+      @cards = hand_string.split(' ') 
     end
 
     def score
@@ -20,10 +20,15 @@ module HandAnalyser
 
     private
 
+    def unsuited_cards
+      @unsuited_cards ||= @cards.map { |c| c[0] }
+    end
+
     def is_straight_flush?
     end
 
     def is_quads?
+      unsuited_cards.select { |e| unsuited_cards.count(e) > 3 }.uniq.size > 0
     end
 
     def is_full_house?
@@ -36,18 +41,15 @@ module HandAnalyser
     end
     
     def is_three_of_a_kind?
+      unsuited_cards.select { |e| unsuited_cards.count(e) > 2 }.uniq.size > 0
     end
 
     def is_two_pair?
+      unsuited_cards.select { |e| unsuited_cards.count(e) > 1 }.uniq.size > 1
     end
 
     def is_pair?
-    end
-
-    def cards_from(str)
-      cards_arr = str.split(' ')
-      # Remove suits from each
-      cards_arr.map { |c| c[0] }
+      unsuited_cards.select { |e| unsuited_cards.count(e) > 1 }.uniq.size > 0
     end
   end
 end
