@@ -3,7 +3,11 @@ module HandAnalyser
     include Comparable
 
     def <=>(other)
-      score <=> other.score
+      if score != other.score
+        score <=> other.score
+      else
+        # Pending
+      end
     end
 
     def initialize(hand_string)
