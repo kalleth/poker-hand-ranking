@@ -1,5 +1,11 @@
 module HandAnalyser
   class Hand
+    include Comparable
+
+    def <=>(other)
+      score <=> other.score
+    end
+
     def initialize(hand_string)
       @cards = hand_string.split(' ')
     end
