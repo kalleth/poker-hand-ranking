@@ -11,7 +11,42 @@ describe "HandAnalyser::Hand" do
   let(:quads) { HandAnalyser::Hand.new('AS AH AD AC 7H') }
   let(:straight_flush) { HandAnalyser::Hand.new('AS KS QS JS TS') }
 
-  it "correctly identifies a pair" do
-    expect(pair.type).to be(:pair)
+  context "when identifying single hands" do
+    it "correctly scores a high card" do
+      expect(high_card.score).to be(0)
+    end
+
+    it "correctly scores a pair" do
+      expect(pair.score).to be(1)
+    end
+
+    it "correctly scores two pairs" do
+      expect(two_pair.score).to be(2)
+    end
+
+    it "correctly scores three of a kind" do
+      expect(three_of_a_kind.score).to be(3)
+    end
+
+    it "correctly scores a straight" do
+      expect(straight.score).to be(4)
+    end
+
+    it "correctly scores a flush" do
+      expect(flush.score).to be(5)
+    end
+
+    it "correctly scores a full house" do
+      expect(full_house.score).to be(6)
+    end
+
+    it "correctly scores quads" do
+      expect(quads.score).to be(7)
+    end
+
+    it "correctly scores a straight flush" do
+      expect(quads.score).to be(8)
+    end
   end
+
 end
