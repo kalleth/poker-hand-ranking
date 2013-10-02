@@ -1,14 +1,10 @@
+require_relative 'hand_comparator'
+
 module HandAnalyser
   class Hand
-    include Comparable
-
-    def <=>(other)
-      if score != other.score
-        score <=> other.score
-      else
-        # Pending
-      end
-    end
+    include HandComparator
+    attr_accessor :cards
+    attr_accessor :unsuited_cards
 
     def initialize(hand_string)
       @cards = hand_string.split(' ')
@@ -28,6 +24,12 @@ module HandAnalyser
       end
     end
 
+    def unsuited_cards
+      @unsuited_cards ||= @cards.map { |c| c[0] }.sort_by do |a, b|
+        card_to_numeric(a) <=> card_to_numeric(b)
+      end
+    end
+
     private
 
     # Utility methods
@@ -43,12 +45,6 @@ module HandAnalyser
       end
     end
     
-    def unsuited_cards
-      @unsuited_cards ||= @cards.map { |c| c[0] }.sort_by do |a, b|
-        card_to_numeric(a) <=> card_to_numeric(b)
-      end
-    end
-
     def has_same?(n, greater_than = 0)
       unsuited_cards.select { |e| unsuited_cards.count(e) >= n }.uniq.size > greater_than 
     end
@@ -75,6 +71,7 @@ module HandAnalyser
     
     def straight?
       range_arr = unsuited_cards.map { |c| card_to_numeric(c) }
+      return false if range_arr.uniq.size != 5
       range = Range.new(range_arr.last, range_arr.first)
       ((range.max - range.min) + 1) == 5
     end

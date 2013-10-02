@@ -69,13 +69,14 @@ describe "HandAnalyser::Hand" do
 
   context "when comparing the same hand with different high points" do
     let(:pair_kings) { HandAnalyser::Hand.new('KS KH 2D 5C 7H') }
+    let(:high_card_king) { HandAnalyser::Hand.new('KS 9H 2D 5C 7H') }
 
     it "shows pair of aces better than pair of kings" do
       expect(pair_kings < pair_aces).to be(true)
     end
 
-    it "shows pair of kings worse than pair of aces" do
-      expect(pair_aces < pair_kings).to be(false)
+    it "shows high card A better than high card K" do
+      expect(high_card > high_card_king).to be(true)
     end
   end
 
