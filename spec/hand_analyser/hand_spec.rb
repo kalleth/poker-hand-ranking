@@ -45,7 +45,7 @@ describe "HandAnalyser::Hand" do
     end
 
     it "correctly scores a straight flush" do
-      expect(quads.score).to be(8)
+      expect(straight_flush.score).to be(8)
     end
   end
 

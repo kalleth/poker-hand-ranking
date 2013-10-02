@@ -1,7 +1,7 @@
 module HandAnalyser
   class Hand
     def initialize(hand_string)
-      @cards = hand_string.split(' ') 
+      @cards = hand_string.split(' ')
     end
 
     def score
@@ -20,9 +20,31 @@ module HandAnalyser
 
     private
 
-    def unsuited_cards
-      @unsuited_cards ||= @cards.map { |c| c[0] }
+    # Utility methods
+    
+    def card_to_numeric(c)
+      return c.to_i unless c.to_i == 0
+      case c
+      when "T" then 10
+      when "J" then 11
+      when "Q" then 12
+      when "K" then 13
+      when "A" then 14
+      end
     end
+    
+    def unsuited_cards
+      @unsuited_cards ||= @cards.map { |c| c[0] }.sort_by do |a, b|
+        card_to_numeric(a) <=> card_to_numeric(b)
+      end
+    end
+
+    def has_same?(n, greater_than = 0)
+      unsuited_cards.select { |e| unsuited_cards.count(e) >= n }.uniq.size > greater_than 
+    end
+
+    # Hand identification methods
+    # (aka 'Business Logic')
 
     def straight_flush?
       straight? && flush?
@@ -33,12 +55,18 @@ module HandAnalyser
     end
 
     def full_house?
+      unsuited_cards.select { |e| unsuited_cards.count(e) == 2 }.uniq.size == 1 &&
+        unsuited_cards.select { |e| unsuited_cards.count(e) == 3 }.uniq.size == 1
     end
 
     def flush?
+      @cards.map { |c| c[1] }.uniq.size == 1
     end
     
     def straight?
+      range_arr = unsuited_cards.map { |c| card_to_numeric(c) }
+      range = Range.new(range_arr.last, range_arr.first)
+      ((range.max - range.min) + 1) == 5
     end
     
     def three_of_a_kind?
@@ -46,15 +74,11 @@ module HandAnalyser
     end
 
     def two_pair?
-      has_same?(3, 1)
+      has_same?(2, 1)
     end
 
     def pair?
       has_same?(2)
-    end
-
-    def has_same?(n, greater_than = 0)
-      unsuited_cards.select { |e| unsuited_cards.count(e) >= n }.uniq.size > greater_than 
     end
   end
 end
